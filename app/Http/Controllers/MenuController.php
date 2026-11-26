@@ -23,6 +23,7 @@ class MenuController extends Controller
 
     public function sponsorship()
     {
-        return view('sponsorship');
+        $profile = BusinessProfile::first();
+        return view('sponsorship', compact('profile'));
     }
 }
