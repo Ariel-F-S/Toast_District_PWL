@@ -3,14 +3,16 @@
 namespace App\Http\Controllers;
 
 use App\Models\Menu;
+use App\Models\BusinessProfile;
 use Illuminate\Http\Request;
 
 class MenuController extends Controller
 {
     public function index()
     {
-        $menus = Menu::all();
-        return view('welcome', compact('menus'));
+        $profile = BusinessProfile::first();$menus = Menu::where('status_tersedia', true)->take(4)->get();
+
+        return view('welcome', compact('profile', 'menus'));
     }
 
     public function menu()
