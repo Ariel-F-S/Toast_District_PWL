@@ -306,7 +306,7 @@
             <div class="col-lg-6">
                 <div class="hero-location-pill">
                     <i class="bi bi-geo-alt-fill" style="color: var(--brown);"></i>
-                    <span>{{ $profile->alamat ?? 'Kota Kediri, Jawa Timur' }} &bull; {{ $profile->jam_operasional ?? '10.00 - 22.00 WIB' }}</span>
+                    <span>{{ $profile->alamat ?? 'Kediri, Jawa Timur' }} &bull; {{ $profile->jam_operasional ?? '10.00 - 22.00 WIB' }}</span>
                 </div>
 
                 <h1 class="hero-headline">
