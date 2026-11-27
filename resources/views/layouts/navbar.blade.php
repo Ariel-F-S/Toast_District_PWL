@@ -53,9 +53,6 @@
                             <a class="nav-link {{ request()->is('menu*') ? 'active' : '' }}" href="{{ url('/menu') }}">Our Menu</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link {{ request()->is('catering*') ? 'active' : '' }}" href="{{ url('/catering') }}">Catering</a>
-                        </li>
-                        <li class="nav-item">
                             <a class="nav-link {{ request()->is('sponsorship*') ? 'active' : '' }}" href="{{ url('/sponsorship') }}">Sponsorship</a>
                         </li>
                     @endif
