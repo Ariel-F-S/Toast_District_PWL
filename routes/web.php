@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Models\Menu;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\UserController;
 
 Route::get('/', function () {
     $menus = Menu::all();
@@ -26,3 +27,14 @@ Route::middleware('guest')->group(function () {
 });
 
 Route::post('/logout', [AuthController::class, 'logout'])->middleware('auth')->name('logout');
+
+Route::middleware(['auth', 'role:owner'])->prefix('owner')->group(function () {
+    Route::get('/users', [UserController::class, 'index'])->name('owner.users.index');
+    Route::post('/users', [UserController::class, 'store'])->name('owner.users.store');
+    Route::put('/users/{user}', [UserController::class, 'update'])->name('owner.users.update');
+    Route::delete('/users/{user}', [UserController::class, 'destroy'])->name('owner.users.destroy');
+});
+
+Route::get('/dashboard', function () {
+    return view('owner.dashboard');
+})->middleware(['auth', 'role:owner'])->name('dashboard');

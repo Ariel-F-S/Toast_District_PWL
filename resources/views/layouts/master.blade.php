@@ -153,75 +153,7 @@
 
 <body>
 
-    <!-- NAVBAR -->
-    <nav class="navbar navbar-expand-lg sticky-top">
-        <div class="container">
-
-            <a class="navbar-brand" href="{{ url('/') }}">
-                toast<span>.district</span>
-            </a>
-
-            <button class="navbar-toggler" type="button"
-                data-bs-toggle="collapse"
-                data-bs-target="#navbarToast">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-
-            <div class="collapse navbar-collapse" id="navbarToast">
-
-                <ul class="navbar-nav mx-auto">
-                    <li class="nav-item">
-                        <a class="nav-link {{ request()->is('/') ? 'active' : '' }}" href="{{ url('/') }}">Home</a>
-                    </li>
-
-                    <li class="nav-item">
-                        <a class="nav-link {{ request()->is('menu') ? 'active' : '' }}" href="{{ url('/menu') }}">Our Menu</a>
-                    </li>
-
-                    <li class="nav-item">
-                        <a class="nav-link {{ request()->is('sponsorship') ? 'active' : '' }}" href="{{ url('/sponsorship') }}">Sponsorship</a>
-                    </li>
-                </ul>
-
-                <!-- AUTH BUTTONS -->
-                <div class="d-flex align-items-center gap-2 mt-3 mt-lg-0">
-                    @guest
-                        <a href="{{ url('/login') }}" class="btn btn-toast-outline">
-                            Login
-                        </a>
-                        <a href="{{ url('/register') }}" class="btn btn-toast">
-                            Register
-                        </a>
-                    @endguest
-
-                    @auth
-                        <div class="dropdown">
-                            <button class="btn btn-toast dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                <i class="bi bi-person-circle me-1"></i> {{ Auth::user()->name ?? 'Akun' }}
-                            </button>
-                            <ul class="dropdown-menu dropdown-menu-end border-0 shadow-sm" style="background-color: #fffdf9; border-radius: 14px;">
-                                <li>
-                                    <a class="dropdown-item py-2" href="{{ url('/dashboard') }}">
-                                        <i class="bi bi-speedometer2 me-2"></i>Dashboard
-                                    </a>
-                                </li>
-                                <li><hr class="dropdown-divider"></li>
-                                <li>
-                                    <form action="{{ url('/logout') }}" method="POST">
-                                        @csrf
-                                        <button type="submit" class="dropdown-item py-2 text-danger">
-                                            <i class="bi bi-box-arrow-right me-2"></i>Logout
-                                        </button>
-                                    </form>
-                                </li>
-                            </ul>
-                        </div>
-                    @endauth
-                </div>
-
-            </div>
-        </div>
-    </nav>
+    @include('layouts.navbar')
 
     <!-- MAIN CONTENT -->
     <main>
