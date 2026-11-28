@@ -221,7 +221,7 @@
         border-bottom: 1px solid rgba(248, 243, 234, 0.18);
     }
 
-    /* ETALASE MENU BERSIH (GAMBAR SUDAH PUNYA LABEL, JADI KARTU CUKUP RINGKAS) */
+    /* ETALASE MENU BERSIH */
     .etalase-card {
         background: #ffffff;
         border: 1px solid #E7DDD0;
@@ -335,7 +335,12 @@
                     @endphp
                     <div class="hero-arch-frame">
                         @if ($heroMenu && $heroMenu->gambar)
-                            <img src="{{ asset($heroMenu->gambar) }}" alt="{{ $heroMenu->nama_menu }}">
+                            @php
+                                $heroImg = str_starts_with($heroMenu->gambar, 'menus/')
+                                    ? asset('storage/' . $heroMenu->gambar)
+                                    : asset($heroMenu->gambar);
+                            @endphp
+                            <img src="{{ $heroImg }}" alt="{{ $heroMenu->nama_menu }}">
                         @else
                             <div class="py-5">
                                 <i class="bi bi-cup-hot" style="font-size: 80px; color: var(--brown);"></i>
@@ -389,7 +394,7 @@
     </div>
 </section>
 
-<!-- 3. BLOK GELAP: RACIKAN KAMI (BIAR HALAMAN TIDAK MONOTON WARNA KREM) -->
+<!-- 3. BLOK GELAP: RACIKAN KAMI -->
 <section id="racikan-kami" class="dark-craft-section story-section">
     <div class="container">
         <div class="row g-5">
@@ -444,15 +449,21 @@
 
         <div class="row g-4">
             @forelse ($menus as $menu)
+                @php
+                    $menuImg = str_starts_with($menu->gambar ?? '', 'menus/')
+                        ? asset('storage/' . $menu->gambar)
+                        : asset($menu->gambar);
+                    $isSweet = in_array(strtolower($menu->kategori ?? ''), ['sweet', 'manis']);
+                @endphp
                 <div class="col-12 col-sm-6 col-lg-3">
                     <a href="{{ url('/menu') }}" class="text-decoration-none text-dark">
                         <div class="etalase-card">
                             @if ($menu->gambar)
-                                <img src="{{ asset($menu->gambar) }}" alt="{{ $menu->nama_menu }}">
+                                <img src="{{ $menuImg }}" alt="{{ $menu->nama_menu }}">
                             @endif
                             <div class="d-flex justify-content-between align-items-center pt-2 border-top" style="border-color: #F0E7DB !important;">
-                                <span class="badge rounded-pill {{ $menu->kategori == 'manis' ? 'badge-sweet' : 'badge-salty' }}">
-                                    {{ $menu->kategori == 'manis' ? 'Sweet' : 'Salted' }}
+                                <span class="badge rounded-pill {{ $isSweet ? 'badge-sweet' : 'badge-salty' }}">
+                                    {{ $isSweet ? 'Sweet' : 'Salted' }}
                                 </span>
                                 <small class="text-muted fw-medium">Lihat Detail &rarr;</small>
                             </div>

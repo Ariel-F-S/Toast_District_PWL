@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\DB;
 use App\Models\Menu;
 use App\Models\User;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\MenuController;
 
 Route::get('/', function () {
     $menus = Menu::all();
@@ -21,10 +22,17 @@ Route::get('/sponsorship', function () {
 });
 
 Route::middleware(['auth', 'role:owner'])->prefix('owner')->group(function () {
+    // CRUD Users
     Route::get('/users', [UserController::class, 'index'])->name('owner.users.index');
     Route::post('/users', [UserController::class, 'store'])->name('owner.users.store');
     Route::put('/users/{user}', [UserController::class, 'update'])->name('owner.users.update');
     Route::delete('/users/{user}', [UserController::class, 'destroy'])->name('owner.users.destroy');
+
+    // CRUD Kelola Menu & Stok
+    Route::get('/menus', [MenuController::class, 'manage'])->name('owner.menus.index');
+    Route::post('/menus', [MenuController::class, 'store'])->name('owner.menus.store');
+    Route::put('/menus/{menu}', [MenuController::class, 'update'])->name('owner.menus.update');
+    Route::delete('/menus/{menu}', [MenuController::class, 'destroy'])->name('owner.menus.destroy');
 });
 
 Route::get('/dashboard', function () {
