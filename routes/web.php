@@ -1,8 +1,9 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\DB;
 use App\Models\Menu;
-use App\Http\Controllers\AuthController;
+use App\Models\User;
 use App\Http\Controllers\UserController;
 
 Route::get('/', function () {
@@ -19,15 +20,6 @@ Route::get('/sponsorship', function () {
     return view('sponsorship');
 });
 
-Route::middleware('guest')->group(function () {
-    Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
-    Route::post('/login', [AuthController::class, 'login']);
-    Route::get('/register', [AuthController::class, 'showRegister'])->name('register');
-    Route::post('/register', [AuthController::class, 'register']);
-});
-
-Route::post('/logout', [AuthController::class, 'logout'])->middleware('auth')->name('logout');
-
 Route::middleware(['auth', 'role:owner'])->prefix('owner')->group(function () {
     Route::get('/users', [UserController::class, 'index'])->name('owner.users.index');
     Route::post('/users', [UserController::class, 'store'])->name('owner.users.store');
@@ -36,5 +28,21 @@ Route::middleware(['auth', 'role:owner'])->prefix('owner')->group(function () {
 });
 
 Route::get('/dashboard', function () {
-    return view('owner.dashboard');
+    $totalPendapatan = DB::table('orders')->where('status_pembayaran', 'lunas')->sum('total_harga');
+    $pendapatanTunai = DB::table('orders')->where('status_pembayaran', 'lunas')->where('jenis_pembayaran', 'tunai')->sum('total_harga');
+    $pendapatanQris = DB::table('orders')->where('status_pembayaran', 'lunas')->whereIn('jenis_pembayaran', ['qris_dp', 'qris_lunas'])->sum('total_harga');
+    $totalPesanan = DB::table('orders')->count();
+    $totalUser = User::count();
+    $totalMenu = DB::table('menus')->count();
+    $recentOrders = DB::table('orders')->latest()->limit(5)->get();
+
+    return view('owner.dashboard', compact(
+        'totalPendapatan',
+        'pendapatanTunai',
+        'pendapatanQris',
+        'totalPesanan',
+        'totalUser',
+        'totalMenu',
+        'recentOrders'
+    ));
 })->middleware(['auth', 'role:owner'])->name('dashboard');

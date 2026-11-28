@@ -74,12 +74,9 @@
             <div class="d-flex align-items-center gap-2 mt-3 mt-lg-0">
                 @guest
                     <a href="{{ url('/login') }}" class="btn btn-toast-outline">
-                        Login
+                        Login/Register
                     </a>
-                    <a href="{{ url('/register') }}" class="btn btn-toast">
-                        Register
-                    </a>
-                @endguest
+               @endguest
 
                 @auth
                     <div class="dropdown">
